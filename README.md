@@ -22,13 +22,13 @@ There are three common ways to populate Azure Cognitive Search from Cosmos DB:
 
 ## Project Directory Structure
 
-This repo contains the following three subdirectories/subprojects:
+This repo contains the following three subdirectories/subprojects with working code:
 
 ```
-.                       <-- Root directory of this repo
-├── java_acs_client     <-- Java client app for the indexed data in Azure Cognitive Services
-├── py_acs_admin        <-- Python console app for configuring/administering Azure Cognitive Services
-└── py_cosmos_data      <-- Python console app to wrangle the raw data and load it to Cosmos DB Mongo API
+.                     <-- Root directory of this repo
+├── java_acs_client   <-- Java client app for the indexed data in Azure Cognitive Services
+├── py_acs_admin      <-- Python console app for configuring/administering Azure Cognitive Services
+└── py_cosmos_data    <-- Python console app to wrangle the raw data and load it to Cosmos DB Mongo API
 ```
 
 ---
@@ -195,12 +195,250 @@ while the **route** documents are larger with nested fields and arrays.
 This is implemented in the **py_acs_admin** subproject with Python 3
 and the very nice **REST API** exposed by the Azure Cognitive Search service.
 
+Alternatively, you can manually configure ACS in **Azure Portal** or 
+with automation using PowerShell, Bicep, az CLI, or Terraform.
+
+I chose the REST API for this repo because it is very full-featured, easy to use,
+and actual searches from your application code typically use the REST API, too.
+
 ### Key Concepts
 
 - **REST HTTP API**
-- **Datasource**
-- **Index**
-- **Indexer**
+- **Datasource** - Points ACS to a source of the data to be indexed
+- **Index** - defines the attributes of the searched/indexed data
+- **Indexer** - ties a datasource to an index, with a schedule
+- **Synomyn** - lists of similar words for searching with
+- **JSON representation of these concepts** - see below
+- **Query Syntax - Simple or Lucene**
+- **The optional "Cognitive" part with Azure Cognitive Services**
+  - document cracking, keyword and sentiment analysis, image processing, etc
+
+#### Example Datasource
+
+This example points to a Cosmos DB Mongo API account, dev database, routes collection.
+
+```
+  {
+    "name": "cosmosdb-mongo-dev-routes",
+    "type": "cosmosdb",
+    "credentials": {
+      "connectionString": "AccountEndpoint=https://gbbcjmongo.documents.azure.com;AccountKey=<secret>;Database=dev;ApiKind=MongoDb;"
+    },
+    "container": {
+      "name": "routes",
+      "query": null
+    },
+    "dataChangeDetectionPolicy": {
+      "@odata.type": "#Microsoft.Azure.Search.HighWaterMarkChangeDetectionPolicy",
+      "highWaterMarkColumnName": "_ts"
+    },
+    "dataDeletionDetectionPolicy": null,
+    "encryptionKey": null,
+    "identity": null
+  }
+```
+
+#### Example Index
+
+Note that **doc_id** corresponds to the **_id** attribute.
+
+```
+  {
+    "name": "mongo-routes",
+    "fields": [
+      {
+        "name": "id",
+        "key": "true",
+        "type": "Edm.String",
+        "searchable": "true",
+        "filterable": "true",
+        "sortable": "true",
+        "facetable": "true"
+      },
+      {
+        "name": "doc_id",
+        "key": "false",
+        "type": "Edm.String",
+        "searchable": "true",
+        "filterable": "true",
+        "sortable": "true",
+        "facetable": "true"
+      },
+      {
+        "name": "pk",
+        "type": "Edm.String",
+        "key": "false",
+        "searchable": "true",
+        "filterable": "true",
+        "sortable": "true",
+        "facetable": "true"
+      },
+      {
+        "name": "airline",
+        "type": "Edm.String",
+        "searchable": "true",
+        "filterable": "true",
+        "sortable": "true",
+        "facetable": "true"
+      },
+      {
+        "name": "airline_id",
+        "type": "Edm.String",
+        "searchable": "true",
+        "filterable": "true",
+        "sortable": "true",
+        "facetable": "true"
+      },
+      {
+        "name": "source_iata",
+        "type": "Edm.String",
+        "searchable": "true",
+        "filterable": "true",
+        "sortable": "true",
+        "facetable": "true"
+      },
+      {
+        "name": "dest_iata",
+        "type": "Edm.String",
+        "searchable": "true",
+        "filterable": "true",
+        "sortable": "true",
+        "facetable": "true"
+      },
+      {
+        "name": "equipment",
+        "type": "Edm.String",
+        "searchable": "true",
+        "filterable": "true",
+        "sortable": "true",
+        "facetable": "true"
+      },
+      {
+        "name": "stops",
+        "type": "Edm.String",
+        "searchable": "true",
+        "filterable": "true",
+        "sortable": "true",
+        "facetable": "true"
+      },
+      {
+        "name": "source_airport",
+        "type": "Edm.ComplexType",
+        "fields": [
+          {
+            "name": "name",
+            "type": "Edm.String",
+            "filterable": true,
+            "sortable": true,
+            "facetable": true,
+            "searchable": true
+          },
+          {
+            "name": "city",
+            "type": "Edm.String",
+            "filterable": true,
+            "sortable": true,
+            "facetable": true,
+            "searchable": true
+          },
+          {
+            "name": "country",
+            "type": "Edm.String",
+            "filterable": true,
+            "sortable": true,
+            "facetable": true,
+            "searchable": true
+          },
+          {
+            "name": "iata",
+            "type": "Edm.String",
+            "filterable": true,
+            "sortable": true,
+            "facetable": true,
+            "searchable": true
+          },
+          {
+            "name": "tz",
+            "type": "Edm.String",
+            "filterable": true,
+            "sortable": true,
+            "facetable": true,
+            "searchable": true
+          }
+        ]
+      },
+      {
+        "name": "dest_airport",
+        "type": "Edm.ComplexType",
+        "fields": [
+          {
+            "name": "name",
+            "type": "Edm.String",
+            "filterable": true,
+            "sortable": true,
+            "facetable": true,
+            "searchable": true
+          },
+          {
+            "name": "city",
+            "type": "Edm.String",
+            "filterable": true,
+            "sortable": true,
+            "facetable": true,
+            "searchable": true
+          },
+          {
+            "name": "country",
+            "type": "Edm.String",
+            "filterable": true,
+            "sortable": true,
+            "facetable": true,
+            "searchable": true
+          },
+          {
+            "name": "iata",
+            "type": "Edm.String",
+            "filterable": true,
+            "sortable": true,
+            "facetable": true,
+            "searchable": true
+          },
+          {
+            "name": "tz",
+            "type": "Edm.String",
+            "filterable": true,
+            "sortable": true,
+            "facetable": true,
+            "searchable": true
+          }
+        ]
+      },
+      {
+        "name": "frequent_passengers",
+        "type": "Collection(Edm.String)",
+        "searchable": "true",
+        "filterable": "true",
+        "sortable": "false",
+        "facetable": "false"
+      }
+    ]
+  }
+```
+
+#### Example Indexer
+
+An indexer ties a datasource to an index, with a schedule.
+
+```
+  {
+    "name": "mongo-routes",
+    "dataSourceName": "cosmosdb-mongo-dev-routes",
+    "targetIndexName": "mongo-routes",
+    "schedule": {
+      "interval": "PT12H"
+    }
+  }
+```
 
 ### search.py help content
 
