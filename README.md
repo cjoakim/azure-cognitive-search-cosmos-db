@@ -6,7 +6,10 @@ focusing on the **Mongo API**.
 The documentation here focuses on Windows PowerShell and *.ps1 scripts, but
 corresponding bash shell scripts for macOS and Linux are also in this repo.
 
-Previous repo with Azure Cognitive Search with **Azure Cognitive Services**:
+See the Microsoft documentation here:
+https://learn.microsoft.com/en-us/azure/search/search-howto-index-cosmosdb-mongodb
+
+See my previous my repo with Azure Cognitive Search **with Azure Cognitive Services** here:
 https://github.com/cjoakim/azure-cognitive-search-example
 
 --- 
