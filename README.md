@@ -37,6 +37,7 @@ This repo contains the following three subdirectories/subprojects with working c
 └── py_cosmos_data    <-- Python console app to wrangle the raw data and load it to Cosmos DB Mongo API
 ```
 
+
 There are several **tmp/** directories used in this repo, and these are intentionally git-ignored.
 You can create these tmp directories with **create_tmp_dirs.ps1** or **create_tmp_dirs.sh**.
 
@@ -653,7 +654,10 @@ http statusCode: 200, elapsed ms: 371
 file written: tmp/mongo-airports-clt_airport-1685363732229.json
 ```
 
+
 **The result documents from Azure Cognitive Search give you the Cosmos DB coordinates (i.e. - id and pk/partition key) to do an efficient point-read of the underlying Cosmos DB document.**
+
+---
 
 ## Search Syntax Examples
 
