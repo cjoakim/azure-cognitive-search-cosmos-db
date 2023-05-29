@@ -659,29 +659,23 @@ file written: tmp/mongo-airports-clt_airport-1685363732229.json
 ```
 
 
-**The result documents from Azure Cognitive Search give you the Cosmos DB coordinates (i.e. - id and pk/partition key) to do an efficient point-read of the underlying Cosmos DB document.**
-
----
-
-## Search Syntax Examples
-
-TODO
+**The result documents from Azure Cognitive Search give you the Cosmos DB coordinates (i.e. - id and pk/partition key) to do an efficient Point-Read of the underlying Cosmos DB document.**
 
 ---
 
 ## Links
 
-### Azure
+### Azure Cognitive Search 
 
-- https://learn.microsoft.com/en-us/java/api/overview/azure/search-documents-readme?view=azure-java-stable
-- https://learn.microsoft.com/en-us/azure/search/search-howto-index-cosmosdb-mongodb
-- https://learn.microsoft.com/en-us/azure/search/search-howto-complex-data-types?tabs=complex-type-rest#indexing-complex-types
-- https://learn.microsoft.com/en-us/rest/api/searchservice/supported-data-types
-
-- https://docs.microsoft.com/en-us/rest/api/searchservice/
-- https://docs.microsoft.com/en-us/rest/api/searchservice/search-documents
-- https://docs.microsoft.com/en-us/azure/search/search-get-started-python
-- https://docs.microsoft.com/en-us/azure/search/search-howto-index-cosmosdb
+- [Overview](https://learn.microsoft.com/en-us/azure/search/search-what-is-azure-search)
+- [Quickstart - Portal](https://learn.microsoft.com/en-us/azure/search/search-query-lucene-examples)
+- [With Cosmos DB Mongo API](https://learn.microsoft.com/en-us/azure/search/search-howto-index-cosmosdb-mongodb)
+- [REST API - Management](https://learn.microsoft.com/en-us/rest/api/searchmanagement/)
+- [REST API - Search](https://learn.microsoft.com/en-us/rest/api/searchservice/)
+- [Search Syntax - Simple](https://learn.microsoft.com/en-us/azure/search/search-query-simple-examples)
+- [Search Syntax - Lucene](https://learn.microsoft.com/en-us/azure/search/search-query-lucene-examples)
+- [Tiers](https://learn.microsoft.com/en-us/azure/search/search-sku-tier)
+- [Pricing](https://azure.microsoft.com/en-us/pricing/details/search/#pricing)
 
 ### Other
 
