@@ -24,6 +24,10 @@ There are three common ways to populate Azure Cognitive Search from Cosmos DB:
 
 **This repo focuses on the Indexer solution, which is the most common with our customers.**
 
+<p align="center">
+    <img src="img/azure-cognitive-search-cosmos-db.png" width="95%">
+</p>
+
 ---
 
 ## Project Directory Structure
