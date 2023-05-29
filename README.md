@@ -668,7 +668,7 @@ file written: tmp/mongo-airports-clt_airport-1685363732229.json
 ### Azure Cognitive Search 
 
 - [Overview](https://learn.microsoft.com/en-us/azure/search/search-what-is-azure-search)
-- [Quickstart - Portal](https://learn.microsoft.com/en-us/azure/search/search-query-lucene-examples)
+- [Quickstart - Azure Portal](https://learn.microsoft.com/en-us/azure/search/search-query-lucene-examples)
 - [With Cosmos DB Mongo API](https://learn.microsoft.com/en-us/azure/search/search-howto-index-cosmosdb-mongodb)
 - [REST API - Management](https://learn.microsoft.com/en-us/rest/api/searchmanagement/)
 - [REST API - Search](https://learn.microsoft.com/en-us/rest/api/searchservice/)

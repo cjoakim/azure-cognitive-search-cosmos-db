@@ -61,16 +61,67 @@ public class App {
 
         switch (searchName) {
 
+            // gradle search_all_airports --warning-mode all
             case "all_airports":
                 postData.put("count", "true");
                 postData.put("search", "*");
                 postData.put("orderby", "pk");
                 break;
 
+            // gradle search_clt_airport --warning-mode all
             case "clt_airport":
+                postData.put("queryType", "simple");
                 postData.put("count", "true");
-                postData.put("search", "CLT");
-                postData.put("orderby", "pk");
+                postData.put("search", "pk eq 'CLT'");
+                break;
+
+            // gradle search_charlotte_douglas_airport --warning-mode all
+            case "charlotte_douglas_airport":
+                postData.put("queryType", "simple");
+                postData.put("count", "true");
+                postData.put("search", "pk eq 'Charlotte Douglas'");
+                break;
+
+            // gradle search_airports_eastus_cl --warning-mode all
+            case "airports_eastus_cl":
+                postData.put("queryType", "full");
+                postData.put("count", "true");
+                postData.put("search", "tz:New_York~ AND pk:CL*");
+                postData.put("select", "pk,doc_id,name,city,latitude,tz");
+                postData.put("orderby", "latitude desc");
+                break;
+
+            // gradle search_airports_eastus_cl_south --warning-mode all
+            case "airports_eastus_cl_south":
+                postData.put("queryType", "full");
+                postData.put("count", "true");
+                postData.put("search", "tz:New_York~ AND pk:CL*");
+                postData.put("filter", "latitude lt 39.0");                // <-- numeric filter
+                postData.put("select", "pk,doc_id,name,city,latitude,tz");
+                postData.put("orderby", "latitude desc");
+                break;
+
+            // gradle search_routes_jfk_mia --warning-mode all
+            case "routes_jfk_mia":
+                postData.put("queryType", "full");
+                postData.put("count", "true");
+                postData.put("search", "pk:JFK\\:MIA");
+                break;
+
+            // gradle search_routes_nested --warning-mode all
+            case "routes_nested":
+                postData.put("queryType", "full");
+                postData.put("count", "true");
+                postData.put("search", "source_airport/iata:CLT AND dest_airport/country:Canada");  // <-- nested fields search
+                postData.put("select", "pk,doc_id,airline,source_airport,dest_airport");
+                postData.put("orderby", "dest_airport/city");                                       // <-- order by nested field
+                break;
+
+            // gradle search_routes_joakim --warning-mode all
+            case "routes_joakim":
+                postData.put("queryType", "simple");
+                postData.put("count", "true");
+                postData.put("search", "frequent_passengers/*:Joakim");  // <-- find in an array of strings
                 break;
 
             default:
