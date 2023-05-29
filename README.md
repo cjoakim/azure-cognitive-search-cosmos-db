@@ -34,6 +34,9 @@ This repo contains the following three subdirectories/subprojects with working c
 └── py_cosmos_data    <-- Python console app to wrangle the raw data and load it to Cosmos DB Mongo API
 ```
 
+There are several **tmp/** directories used in this repo, and these are intentionally git-ignored.
+You can create these tmp directories with **create_tmp_dirs.ps1** or **create_tmp_dirs.sh**.
+
 ---
 
 ## System Requirements 
