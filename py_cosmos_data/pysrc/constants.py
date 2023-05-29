@@ -6,15 +6,10 @@ import arrow
 
 # This class defines pseudo-constant values similar to a Java interface.
 # The other classes in this project should use these magic/constant values.
+#
 # Chris Joakim, Microsoft
 
 class Constants(object):
-
-    AZURE_REDISCACHE_HOST     = 'AZURE_REDISCACHE_HOST'
-    AZURE_REDISCACHE_PORT     = 'AZURE_REDISCACHE_PORT'
-    AZURE_REDISCACHE_KEY      = 'AZURE_REDISCACHE_KEY'
-
-    REDIS_CACHE_WINDOWS_NET   = '.redis.cache.windows.net'
 
     FLAG_ARG_CAPTURE          = '--capture'
     FLAG_ARG_VERBOSE          = '--verbose'

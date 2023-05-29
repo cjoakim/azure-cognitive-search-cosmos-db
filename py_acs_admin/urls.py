@@ -1,18 +1,13 @@
-__author__  = 'Chris Joakim'
-__email__   = "chjoakim@microsoft.com"
-__license__ = "MIT"
-__version__ = "May 2023"
-
 import os
 
 from base import BaseClass
 
+# An instance of this class is created in main class SearchClient.  It is used
+# to generate all URL values used by this app to interact with Azure Cognitive Search.
+#
+# Chris Joakim, Microsoft
 
 class Urls(BaseClass):
-    """
-    An instance of this class is created in main class SearchClient.  It is used
-    to generate all URL values used by this app to interact with Azure Cognitive Search.
-    """
 
     def __init__(self):
         BaseClass.__init__(self)

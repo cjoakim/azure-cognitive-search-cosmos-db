@@ -7,10 +7,8 @@ from pymongo import MongoClient
 from bson.objectid import ObjectId
 
 # This class is used to access a MongoDB database, including the CosmosDB Mongo API.
-# Chris Joakim, Microsoft, 2023
 #
-# Importing:
-# from pysrc.mongo import Mongo, MongoDBInstance, MongoDBDatabase, MongoDBCollection
+# Chris Joakim, Microsoft, 2023
 
 class Mongo(object):
 

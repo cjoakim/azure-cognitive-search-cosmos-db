@@ -1,6 +1,7 @@
 import humanize
 
 # This class is used to calculate KB, MB, GB, TB values from a given integer value of bytes.
+#
 # Chris Joakim, Microsoft
 
 class Bytes(object):

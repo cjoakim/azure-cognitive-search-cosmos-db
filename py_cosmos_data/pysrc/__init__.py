@@ -1,11 +1,6 @@
-__author__ = 'Chris Joakim'
-__version__ = '0.2.0'
+# Chris Joakim, Microsoft
 
-VERSION = __version__
-
-"""
-cjcc library; Chris Joakim (cj) Common Code (cc)
-"""
+VERSION = '2.0.0'
 
 import arrow
 import math

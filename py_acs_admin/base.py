@@ -1,23 +1,14 @@
-"""
-This is the superclass of several classes in this project
-"""
-
-__author__  = 'Chris Joakim'
-__email__   = "chjoakim@microsoft.com"
-__license__ = "MIT"
-__version__ = "May 2023"
-
 import json
 import os
 import sys
 import time
 
+# This is the abstract superclass of the several classes in this project -
+# SearchClient, Schemas, Urls.
+#
+# Chris Joakim, Microsoft
 
 class BaseClass:
-    """
-    This is the abstract superclass of the several classes in this project -
-    SearchClient, Schemas, Urls.
-    """
 
     def __init__(self):
         self.user_agent = {'User-agent': 'Mozilla/5.0'}

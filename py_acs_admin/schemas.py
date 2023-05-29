@@ -1,12 +1,12 @@
-__author__  = 'Chris Joakim'
-__email__   = "chjoakim@microsoft.com"
-__license__ = "MIT"
-__version__ = "May 2023"
-
 import json
 
 from base import BaseClass
 
+# An instance of this class is created in main class SearchClient.  It is used
+# to read or generate and return the various JSON "schema" documents used in
+# this app to interact with Azure Cognitive Search.
+#
+# Chris Joakim, Microsoft
 
 class Schemas(BaseClass):
     """

@@ -13,7 +13,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Simple Console application to invoke Azure Cognitive Search.
+ * Simple Console application to invoke Azure Cognitive Search, implemented as
+ * a single class - App.
+ * 
  * Command-line arguments expect an <index-name> and a <predefined-search-name>.
  * See file build.gradle
  *
@@ -21,9 +23,6 @@ import java.util.Map;
  */
 
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
 
     public static void main(String[] args) {
 
@@ -32,11 +31,17 @@ public class App {
             String searchName = args[1];
             Map<String, String> postData = buildPostData(searchName);
             System.out.println("postData: " + mapToJson(postData));
-            HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = buildHttpClient(indexName, postData);
+            
+            HttpClient client = HttpClient.newHttpClient();  // client can be a long-running object in your app
+            
+            long startMs = System.currentTimeMillis(); 
 
+            HttpRequest request = buildHttpClient(indexName, postData);
             var response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println("http statusCode: " + response.statusCode());
+
+            long elapsedMs = System.currentTimeMillis() - startMs;
+
+            System.out.println("http statusCode: " + response.statusCode() + ", elapsed ms: " + elapsedMs);
 
             String prettyJson = parseResponseData(response.body());
             System.out.println(prettyJson);
@@ -47,8 +52,6 @@ public class App {
         }
         catch (Exception e) {
             throw new RuntimeException(e);
-        }
-        finally {
         }
     }
 

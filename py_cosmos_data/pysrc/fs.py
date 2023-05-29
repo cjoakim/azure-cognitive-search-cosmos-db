@@ -4,7 +4,7 @@ import os
 
 # This class is used to do IO operations vs the local File System.
 #
-# Chris Joakim, Microsoft, 2023
+# Chris Joakim, Microsoft
 
 class FS(object):
 

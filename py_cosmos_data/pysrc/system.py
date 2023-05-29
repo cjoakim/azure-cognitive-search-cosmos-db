@@ -14,11 +14,6 @@ from pysrc.env import Env
 
 # This class is an interface to system information such as memory usage.
 #
-# See https://docs.python.org/3/library/os.html
-# See https://pypi.org/project/psutil/
-# See https://psutil.readthedocs.io/en/latest/
-# See https://docs.python.org/3/library/socket.html#socket.gethostname
-#
 # Chris Joakim, Microsoft
 
 class System(object):

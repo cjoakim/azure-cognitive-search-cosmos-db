@@ -37,12 +37,14 @@ application {
     mainClass = 'org.cjoakim.cosmosdb.search.App'
 }
 
+// gradle search_all_airports --warning-mode all
 task search_all_airports(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     mainClass = 'org.cjoakim.cosmosdb.search.App'
     args 'mongo-airports',  'all_airports'
 }
 
+// gradle search_clt_airport --warning-mode all
 task search_clt_airport(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     mainClass = 'org.cjoakim.cosmosdb.search.App'

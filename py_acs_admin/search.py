@@ -49,28 +49,15 @@ Usage:
     python search.py search_index mongo-routes route_clt_rdu
     -
     python search.py lookup_doc mongo-airports eVBWc0FPdExvZzJYQXdBQUFBQUFBQT090
-    -
-    python search.py index_schema_diff schemas/documents_index_v1.json schemas/documents_index_v2.json
-    python search.py indexer_schema_diff schemas/documents_indexer_v1.json schemas/documents_indexer_v2.json
 """
-
-__author__  = 'Chris Joakim'
-__email__   = "chjoakim@microsoft.com"
-__license__ = "MIT"
-__version__ = "May 2023"
-
-# https://docs.microsoft.com/en-us/rest/api/searchservice/
-# https://docs.microsoft.com/en-us/rest/api/searchservice/search-documents
-# https://docs.microsoft.com/en-us/azure/search/search-get-started-python
-# https://docs.microsoft.com/en-us/azure/search/search-howto-index-cosmosdb
-# https://requests.readthedocs.io/en/master/user/quickstart/
 
 import json
 import os
 import sys
 import time
-import requests
 import traceback
+
+import requests
 
 from docopt import docopt
 
@@ -78,6 +65,11 @@ from base import BaseClass
 from schemas import Schemas
 from urls import Urls
 
+# This is the main class in this subject, and the command-line entry point.
+# It is used to invoke the Azure Cognitive Search HTTP endpoint via the REST
+# API.  The Python requests library is used for all HTTP functionality.
+#
+# Chris Joakim, Microsoft
 
 class SearchClient(BaseClass):
 
@@ -377,47 +369,6 @@ class SearchClient(BaseClass):
         with open(infile, 'rt') as json_file:
             return json.loads(str(json_file.read()))
 
-    def generate_sample_index_schema_file(self):
-        schema = self.schemas.sample_index_object('sample')
-        self.write_json_file(schema, 'schemas/sample_index.json')
-
-    def generate_airport_schema_files(self):
-        index_name = 'airports'
-        indexer_name = 'airports'
-        dbname, container = 'dev', 'airports'
-        datasource_name = self.cosmos_datasource_name(dbname, container)
-
-        schema = self.schemas.airports_index_schema(index_name)
-        self.write_json_file(schema, 'schemas/airports_index.json')
-
-        schema = self.schema.indexer_schema(indexer_name, index_name, datasource_name)
-        self.write_json_file(schema, 'schemas/airports_indexer.json')
-
-    def index_schema_diff(self, file1, file2):
-        diffs = self.schemas.index_schema_diff(file1, file2)
-        print(json.dumps(diffs, sort_keys=False, indent=2))
-
-    def indexer_schema_diff(self, file1, file2):
-        diffs = self.schemas.indexer_schema_diff(file1, file2)
-        print(json.dumps(diffs, sort_keys=False, indent=2))
-
-    def azure_function_url(self, target):
-        if str(target).lower() == 'local':
-            # return a value like 'http://localhost:7071/api/TopWordsSkill'
-            return os.environ['AZURE_FUNCTION_CUSTOM_SKILL_LOCAL']
-        else:
-            # return a value like 'https://cjoakimsearchapp.azurewebsites.net/api/TopWordsSkill?code=nXc ... z7FEA=='
-            return os.environ['AZURE_FUNCTION_CUSTOM_SKILL_REMOTE']
-
-    def read_sample_merged_data(self, sample_name):
-        samples_file = 'data/test_merged_text.json'
-        merged_text = 'this is some default text, repeat default, only a default.'
-        samples = self.load_json_file(samples_file)
-        for sample in samples:
-            if sample['file_name'] == sample_name:
-                return sample['mergedText']
-        return merged_text
-
     def no_http(self):
         for arg in sys.argv:
             if arg == '--no-http':
@@ -440,12 +391,6 @@ if __name__ == "__main__":
 
         if func == 'display_env':
             client.display_env()
-
-        elif func == 'generate_sample_index_schema_file':
-            client.generate_sample_index_schema_file()
-
-        elif func == 'generate_airport_schema_files':
-            client.generate_airport_schema_files()
 
         elif func == 'list_indexes':
             client.list_indexes()
@@ -535,16 +480,6 @@ if __name__ == "__main__":
         elif func == 'delete_synmap':
             synmap_name = sys.argv[2]
             client.delete_synmap(synmap_name)
-
-        elif func == 'index_schema_diff':
-            file1 = sys.argv[2]
-            file2 = sys.argv[3]
-            client.index_schema_diff(file1, file2)
-
-        elif func == 'indexer_schema_diff':
-            file1 = sys.argv[2]
-            file2 = sys.argv[3]
-            client.indexer_schema_diff(file1, file2)
 
         elif func == 'search_index':
             index_name  = sys.argv[2]

@@ -6,15 +6,18 @@ focusing on the **Mongo API**.
 The documentation here focuses on Windows PowerShell and *.ps1 scripts, but
 corresponding bash shell scripts for macOS and Linux are also in this repo.
 
+Previous repo with Azure Cognitive Search with **Azure Cognitive Services**:
+https://github.com/cjoakim/azure-cognitive-search-example
+
 --- 
 
 ## Architecture
 
 There are three common ways to populate Azure Cognitive Search from Cosmos DB:
 
-- Use an **Indexer in ACS** to populate an **Index** from a Cosmos DB **datasource**
-- Directly populate ACS via the Cosmos DB Change Feed, Azure Function and ACS REST API
-- **Application DAO code** which updates both Cosmos DB and ACS
+- Use an **Indexer in ACS** to populate an **Index** from a Cosmos DB **Datasource**
+- Directly populate ACS via the Cosmos DB Change Feed, Azure Function, and ACS REST API
+- **Application DAO code** which updates both Cosmos DB and ACS REST API
 
 **This repo focuses on the Indexer solution, which is the most common with our customers.**
 
@@ -55,13 +58,19 @@ exact environment variable **names** but with **your values** per your
 Azure Cosmos DB database and Azure Cognitive Search Account.
 
 ```
-AZURE_COSMOSDB_MONGODB_CONN_STRING=mongodb://gbbcjmongo:<secret>@gbbcjmongo.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@gbbcjmongo
-
 AZURE_SEARCH_NAME=gbbcjsearch
 AZURE_SEARCH_URL=https://gbbcjsearch.search.windows.net
 AZURE_SEARCH_ADMIN_KEY=<secret>
 AZURE_SEARCH_QUERY_KEY=<secret>
+
+AZURE_COSMOSDB_MONGODB_CONN_STRING=mongodb://gbbcjmongo:<secret>@gbbcjmongo.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@gbbcjmongo
+
+AZURE_COSMOSDB_NOSQL_ACCT=gbbcjcdbnosql
+AZURE_COSMOSDB_NOSQL_RO_KEY1=<secret-read-only-key>
 ```
+
+For the Cosmos DB Mongo API demonstration the AZURE_COSMOSDB_NOSQL_* environment variables
+aren't needed.
 
 ---
 
@@ -606,10 +615,43 @@ BUILD SUCCESSFUL in 1s
 Next, execute two searches:
 
 ```
-gradle search_all_airports
+$ gradle search_all_airports --warning-mode all
 
-gradle search_clt_airport
+... verbose output not shown
+
+$ gradle search_clt_airport --warning-mode all
+
+> Task :app:search_clt_airport
+postData: {"search":"CLT","count":"true","orderby":"pk"}
+url: https://gbbcjsearch.search.windows.net/indexes/mongo-airports/docs/search?api-version=2021-04-30-Preview
+http statusCode: 200, elapsed ms: 371
+{
+  "@odata.count" : 1,
+  "@odata.context" : "https://gbbcjsearch.search.windows.net/indexes('mongo-airports')/$metadata#docs(*)",
+  "value" : [ {
+    "@search.score" : 5.7807436,
+    "id" : "eVBWc0FPdExvZzJYQXdBQUFBQUFBQT090",
+    "doc_id" : "8a8100b8-d949-463d-a676-32b8dab636f8",
+    "pk" : "CLT",
+    "name" : "Charlotte Douglas International Airport",
+    "city" : "Charlotte",
+    "country" : "United States",
+    "iata_code" : null,
+    "latitude" : 35.2140007019043,
+    "longitude" : -80.94309997558594,
+    "tz" : "America/New_York",
+    "epoch" : null,
+    "note" : null
+  } ]
+}
+file written: tmp/mongo-airports-clt_airport-1685363732229.json
 ```
+
+**The result documents from Azure Cognitive Search give you the Cosmos DB coordinates (i.e. - id and pk/partition key) to do an efficient point-read of the underlying Cosmos DB document.**
+
+## Search Syntax Examples
+
+TODO
 
 ---
 
@@ -622,8 +664,12 @@ gradle search_clt_airport
 - https://learn.microsoft.com/en-us/azure/search/search-howto-complex-data-types?tabs=complex-type-rest#indexing-complex-types
 - https://learn.microsoft.com/en-us/rest/api/searchservice/supported-data-types
 
+- https://docs.microsoft.com/en-us/rest/api/searchservice/
+- https://docs.microsoft.com/en-us/rest/api/searchservice/search-documents
+- https://docs.microsoft.com/en-us/azure/search/search-get-started-python
+- https://docs.microsoft.com/en-us/azure/search/search-howto-index-cosmosdb
+
 ### Other
 
-- https://www.baeldung.com/jackson-object-mapper-tutorial
+- https://requests.readthedocs.io/en/master/user/quickstart/
 - https://openflights.org/data.html
-
